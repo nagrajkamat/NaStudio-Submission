@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tic-Tac-Toe Game</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      /* Styling for the Tic-Tac-Toe game */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        text-align: center;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      .board {
+        display: grid;
+        grid-template-columns: repeat(3, 100px);
+        grid-gap: 5px;
+        width: 320px;
+        margin: 0 auto;
+        margin-top: 20px;
+        background-color: #fff;
+        border: 2px solid #333;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .square {
+        width: 100px;
+        height: 100px;
+        font-size: 36px;
+        text-align: center;
+        line-height: 100px;
+        background-color: #77c5d5; /* Light blue */
+        color: #333;
+        border: 2px solid #333;
+        cursor: pointer;
+      }
+
+      .square:hover {
+        background-color: #64a4b7; /* Slightly darker blue on hover */
+      }
+
+      #message {
+        text-align: center;
+        margin-top: 10px;
+        font-size: 24px;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Tic-Tac-Toe</h1>
+    <div class="board">
+      <div class="square" onclick="makeMove(0)"></div>
+      <div class="square" onclick="makeMove(1)"></div>
+      <div class="square" onclick="makeMove(2)"></div>
+      <div class="square" onclick="makeMove(3)"></div>
+      <div class="square" onclick="makeMove(4)"></div>
+      <div class="square" onclick="makeMove(5)"></div>
+      <div class="square" onclick="makeMove(6)"></div>
+      <div class="square" onclick="makeMove(7)"></div>
+      <div class="square" onclick="makeMove(8)"></div>
+    </div>
+
+    <div id="message"></div>
+    <div class="button-container">
+      <button class="button" onclick="">Start Game</button>
+      <button class="button" onclick="">New Game</button>
+      <button class="button" onclick="">Load Game</button>
+      <button class="button" onclick="">Exit Game</button>
+      <button class="button" onclick="">Reload Game</button>
+    </div>
+    <button id="reset-button" onclick="resetGame()">Reset Game</button>
+
+    <script>
+      const board = Array(9).fill(null);
+      let currentPlayer = "X"; // Start with 'X' as the first player
+
+      function makeMove(squareIndex) {
+        // To Check if the selected square is empty
+        if (board[squareIndex] === null) {
+          // Update the board with the current player's symbol
+          board[squareIndex] = currentPlayer;
+
+          // To Check for a win or draw
+          if (checkWin() || isBoardFull()) {
+          } else {
+            // Toggling the current player for the next move
+            currentPlayer = currentPlayer === "X" ? "O" : "X";
+          }
+        }
+      }
+
+      function checkWin() {
+        const winConditions = [
+          [0, 1, 2],
+          [3, 4, 5],
+          [6, 7, 8], // Rows
+          [0, 3, 6],
+          [1, 4, 7],
+          [2, 5, 8], // Columns
+          [0, 4, 8],
+          [2, 4, 6], // Diagonals
+        ];
+
+        for (const condition of winConditions) {
+          const [a, b, c] = condition;
+          if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+            return true; // There's a winner
+          }
+        }
+
+        return false; // No winner yet
+      }
+
+      function isBoardFull() {
+        return board.every((square) => square !== null);
+      }
+
+      function displayMessage(message) {
+        document.getElementById("message").textContent = message;
+      }
+
+      // Function to reset the game
+      function resetGame() {
+        board.fill(null); // Clear the board
+        currentPlayer = "X"; // Reset to 'X' as the first player
+        displayMessage(""); // Clear any previous messages
+      }
+    </script>
+  </body>
+</html>
